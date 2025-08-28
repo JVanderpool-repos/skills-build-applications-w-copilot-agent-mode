@@ -15,9 +15,12 @@ class Command(BaseCommand):
         db[User._meta.db_table].delete_many({})
         db[Team._meta.db_table].delete_many({})
 
+
         # Create Teams
         marvel = Team.objects.create(name='marvel', description='Marvel superheroes')
         dc = Team.objects.create(name='dc', description='DC superheroes')
+        print(f"Marvel team: {marvel} (id={marvel.id})")
+        print(f"DC team: {dc} (id={dc.id})")
 
         # Create Users
         users = [
@@ -39,8 +42,10 @@ class Command(BaseCommand):
         Workout.objects.create(name='Pushups', description='Upper body', suggested_for='marvel')
         Workout.objects.create(name='Situps', description='Core', suggested_for='dc')
 
-        # Create Leaderboard
-        Leaderboard.objects.create(team=marvel, points=150)
-        Leaderboard.objects.create(team=dc, points=120)
+        # Create Leaderboard (ensure team is a Team instance)
+        marvel_team = Team.objects.get(name='marvel')
+        dc_team = Team.objects.get(name='dc')
+        Leaderboard.objects.create(team=marvel_team, points=150)
+        Leaderboard.objects.create(team=dc_team, points=120)
 
         self.stdout.write(self.style.SUCCESS('Test data populated successfully!'))

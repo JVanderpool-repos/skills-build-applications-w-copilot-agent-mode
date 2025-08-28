@@ -20,15 +20,19 @@ function Users() {
           <table className="table table-striped table-hover">
             <thead className="table-dark">
               <tr>
-                <th>Username</th>
+                <th>Name</th>
                 <th>Email</th>
+                <th>Team</th>
+                <th>Superhero</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user, idx) => (
                 <tr key={user.id || idx}>
-                  <td>{user.username}</td>
+                  <td>{user.name}</td>
                   <td>{user.email}</td>
+                  <td>{user.team}</td>
+                  <td>{user.is_superhero ? 'Yes' : 'No'}</td>
                 </tr>
               ))}
             </tbody>

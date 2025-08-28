@@ -20,14 +20,14 @@ function Leaderboard() {
           <table className="table table-striped table-hover">
             <thead className="table-dark">
               <tr>
-                <th>User</th>
+                <th>Team</th>
                 <th>Points</th>
               </tr>
             </thead>
             <tbody>
               {leaderboard.map((entry, idx) => (
                 <tr key={entry.id || idx}>
-                  <td>{entry.user || entry.username || entry.name}</td>
+                  <td>{entry.team}</td>
                   <td>{entry.points}</td>
                 </tr>
               ))}

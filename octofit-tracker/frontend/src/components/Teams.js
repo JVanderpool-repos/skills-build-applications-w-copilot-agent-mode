@@ -21,14 +21,14 @@ function Teams() {
             <thead className="table-dark">
               <tr>
                 <th>Name</th>
-                <th>Members</th>
+                <th>Description</th>
               </tr>
             </thead>
             <tbody>
               {teams.map((team, idx) => (
                 <tr key={team.id || idx}>
                   <td>{team.name}</td>
-                  <td>{team.members && Array.isArray(team.members) ? team.members.join(', ') : ''}</td>
+                  <td>{team.description}</td>
                 </tr>
               ))}
             </tbody>

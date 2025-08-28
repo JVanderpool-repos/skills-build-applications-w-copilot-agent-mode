@@ -1,6 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 
+
 function Teams() {
   const [teams, setTeams] = useState([]);
 
@@ -12,13 +13,28 @@ function Teams() {
   }, []);
 
   return (
-    <div>
-      <h2>Teams</h2>
-      <ul>
-        {teams.map((team, idx) => (
-          <li key={team.id || idx}>{team.name} ({team.members && team.members.join(', ')})</li>
-        ))}
-      </ul>
+    <div className="card">
+      <div className="card-body">
+        <h2 className="card-title mb-4">Teams</h2>
+        <div className="table-responsive">
+          <table className="table table-striped table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>Name</th>
+                <th>Members</th>
+              </tr>
+            </thead>
+            <tbody>
+              {teams.map((team, idx) => (
+                <tr key={team.id || idx}>
+                  <td>{team.name}</td>
+                  <td>{team.members && Array.isArray(team.members) ? team.members.join(', ') : ''}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

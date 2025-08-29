@@ -1,16 +1,28 @@
 
+
 import React, { useEffect, useState } from 'react';
 
-
-function Leaderboard() {
+const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
+  const codespace = process.env.REACT_APP_CODESPACE_NAME;
+  const apiUrl = codespace
+    ? `https://${codespace}-8000.app.github.dev/api/leaderboard/`
+    : '/api/leaderboard/';
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL || ''}/api/leaderboard/`)
-      .then((res) => res.json())
-      .then((data) => setLeaderboard(data))
-      .catch((err) => console.error('Error fetching leaderboard:', err));
-  }, []);
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        const results = data.results || data;
+        setLeaderboard(results);
+        console.log('Fetched leaderboard:', results);
+        console.log('API endpoint:', apiUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching leaderboard:', error);
+        console.error('API URL attempted:', apiUrl);
+      });
+  }, [apiUrl]);
 
   return (
     <div className="card">
@@ -37,6 +49,6 @@ function Leaderboard() {
       </div>
     </div>
   );
-}
+};
 
 export default Leaderboard;

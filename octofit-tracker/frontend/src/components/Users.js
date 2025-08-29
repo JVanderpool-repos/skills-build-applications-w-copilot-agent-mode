@@ -1,16 +1,28 @@
 
+
 import React, { useEffect, useState } from 'react';
 
-
-function Users() {
+const Users = () => {
   const [users, setUsers] = useState([]);
+  const codespace = process.env.REACT_APP_CODESPACE_NAME;
+  const apiUrl = codespace
+    ? `https://${codespace}-8000.app.github.dev/api/users/`
+    : '/api/users/';
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL || ''}/api/users/`)
-      .then((res) => res.json())
-      .then((data) => setUsers(data))
-      .catch((err) => console.error('Error fetching users:', err));
-  }, []);
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        const results = data.results || data;
+        setUsers(results);
+        console.log('Fetched users:', results);
+        console.log('API endpoint:', apiUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching users:', error);
+        console.error('API URL attempted:', apiUrl);
+      });
+  }, [apiUrl]);
 
   return (
     <div className="card">
@@ -41,6 +53,6 @@ function Users() {
       </div>
     </div>
   );
-}
+};
 
 export default Users;

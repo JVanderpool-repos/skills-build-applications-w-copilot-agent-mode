@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 
 const Workouts = () => {
@@ -15,17 +16,36 @@ const Workouts = () => {
         setWorkouts(results);
         console.log('Fetched workouts:', results);
         console.log('API endpoint:', apiUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching workouts:', error);
+        console.error('API URL attempted:', apiUrl);
       });
   }, [apiUrl]);
 
   return (
-    <div>
-      <h2>Workouts</h2>
-      <ul>
-        {workouts.map((workout, idx) => (
-          <li key={workout.id || idx}>{workout.name}: {workout.description}</li>
-        ))}
-      </ul>
+    <div className="card">
+      <div className="card-body">
+        <h2 className="card-title mb-4">Workouts</h2>
+        <div className="table-responsive">
+          <table className="table table-striped table-hover">
+            <thead className="table-dark">
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {workouts.map((workout, idx) => (
+                <tr key={workout.id || idx}>
+                  <td>{workout.name}</td>
+                  <td>{workout.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

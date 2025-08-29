@@ -1,16 +1,28 @@
 
+
 import React, { useEffect, useState } from 'react';
 
-
-function Teams() {
+const Teams = () => {
   const [teams, setTeams] = useState([]);
+  const codespace = process.env.REACT_APP_CODESPACE_NAME;
+  const apiUrl = codespace
+    ? `https://${codespace}-8000.app.github.dev/api/teams/`
+    : '/api/teams/';
 
   useEffect(() => {
-    fetch(`${process.env.REACT_APP_API_URL || ''}/api/teams/`)
-      .then((res) => res.json())
-      .then((data) => setTeams(data))
-      .catch((err) => console.error('Error fetching teams:', err));
-  }, []);
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        const results = data.results || data;
+        setTeams(results);
+        console.log('Fetched teams:', results);
+        console.log('API endpoint:', apiUrl);
+      })
+      .catch(error => {
+        console.error('Error fetching teams:', error);
+        console.error('API URL attempted:', apiUrl);
+      });
+  }, [apiUrl]);
 
   return (
     <div className="card">
@@ -37,6 +49,6 @@ function Teams() {
       </div>
     </div>
   );
-}
+};
 
 export default Teams;
